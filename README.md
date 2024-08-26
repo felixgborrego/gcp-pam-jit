@@ -8,7 +8,7 @@
 ## Introduction
 
 This project is CLI that allows for the employees to request Just-in-time access to GCP resources for a limited time using the
-[Google feedbackPrivileged Access Manager](https://cloud.google.com/iam/docs/pam-overview).
+[Google Privileged Access Manager](https://cloud.google.com/iam/docs/pam-overview).
 
 It's composed of two main components:
 
