@@ -2,6 +2,7 @@
 
 ![Go](docs/imgs/context.png)
 
+![cli](docs/imgs/cli-show.gif)
 ## Introduction
 
 This project is CLI that allows for the employees to request Just-in-time access to GCP resources for a limited time using the
