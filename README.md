@@ -1,6 +1,6 @@
 # Just in time access for GCP using PAM
 
-![Go](docs/imgs/context.png)
+![Go](docs/imgs/c4-diagram-context.jpg)
 
 
 <img src="docs/imgs/cli-show.gif" alt="cli" width="700px">
