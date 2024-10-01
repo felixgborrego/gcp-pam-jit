@@ -33,9 +33,9 @@ var requestCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(requestCmd)
 
-	requestCmd.Flags().String("project", "", "Project ID")
-	requestCmd.Flags().String("location", "global", "Location")
-	requestCmd.Flags().String("justification", "", "Justification")
+	requestCmd.Flags().StringP("project", "p", "", "Project ID")
+	requestCmd.Flags().StringP("location", "l", "global", "Location")
+	requestCmd.Flags().StringP("justification", "j", "", "Justification")
 
 	requestCmd.MarkFlagRequired("project")
 	requestCmd.MarkFlagRequired("justification")

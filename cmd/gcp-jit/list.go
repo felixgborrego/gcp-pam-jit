@@ -29,7 +29,7 @@ var listEntitlementCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(listEntitlementCmd)
 
-	listEntitlementCmd.Flags().String("project", "", "Project ID")
-	listEntitlementCmd.Flags().String("location", "global", "Location")
+	listEntitlementCmd.Flags().StringP("project", "p", "", "Project ID")
+	listEntitlementCmd.Flags().StringP("location", "l", "global", "Location")
 	_ = listEntitlementCmd.MarkFlagRequired("project")
 }
