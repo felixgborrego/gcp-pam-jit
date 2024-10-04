@@ -18,12 +18,13 @@ var requestCmd = &cobra.Command{
 		projectID, _ := cmd.Flags().GetString("project")
 		location, _ := cmd.Flags().GetString("location")
 		justification, _ := cmd.Flags().GetString("justification")
+		duration, _ := cmd.Flags().GetString("duration")
 
 		pam, err := pamjit.NewPamJitClient(context.Background(), projectID, location)
 		if err != nil {
 			log.Fatalf("unable to use GCP JIT service: %v", err)
 		}
-		err = pam.RequestGrant(cmd.Context(), entitlementID, justification)
+		err = pam.RequestGrant(cmd.Context(), entitlementID, justification, duration)
 		if err != nil {
 			fmt.Printf("Error requesting entitlement: %v\n", err)
 		}
@@ -36,6 +37,7 @@ func init() {
 	requestCmd.Flags().StringP("project", "p", "", "Project ID")
 	requestCmd.Flags().StringP("location", "l", "global", "Location")
 	requestCmd.Flags().StringP("justification", "j", "", "Justification")
+	requestCmd.Flags().StringP("duration", "d", "", "Duration (defaults to maximum)")
 
 	requestCmd.MarkFlagRequired("project")
 	requestCmd.MarkFlagRequired("justification")
