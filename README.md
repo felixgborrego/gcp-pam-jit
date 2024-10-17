@@ -18,7 +18,7 @@ It's composed of two main components:
 ## Installation
 
 ```
-go install github.com/felixgborrego/gpc-pam-jit/cmd/gcp-jit
+go install github.com/felixgborrego/gpc-pam-jit/cmd/gcp-jit@latest
 ```
 
 ## Usage:
@@ -52,10 +52,17 @@ gcp-jit request database-access \
      --justification "I need to run a basic query on the prod database"
 ````
 
+* Configure Slack integration:
+```shell
+gcp-jit config slack --token xxxxxxx --channel test1
+```
 
 ## Manual build and run
 
 ```
-go build -o bin/gcp-jit github.com/felixgborrego/gpc-pam-jit/cmd/gcp-jit
+# Run locally for development
+go run .
 
+# Build
+go build -o bin/gcp-jit github.com/felixgborrego/gpc-pam-jit/cmd/gcp-jit
 ```

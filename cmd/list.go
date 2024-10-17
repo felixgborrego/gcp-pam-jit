@@ -1,9 +1,10 @@
-package main
+package cmd
 
 import (
 	"context"
-	"github.com/felixgborrego/gpc-pam-jit/pkg/pamjit"
 	"log"
+
+	"github.com/felixgborrego/gpc-pam-jit/pkg/pamjit"
 
 	"github.com/spf13/cobra"
 )
