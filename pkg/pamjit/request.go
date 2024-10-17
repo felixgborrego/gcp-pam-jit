@@ -2,9 +2,9 @@ package pamjit
 
 import (
 	"cloud.google.com/go/privilegedaccessmanager/apiv1/privilegedaccessmanagerpb"
-	"google.golang.org/protobuf/types/known/durationpb"
 	"context"
 	"fmt"
+	"google.golang.org/protobuf/types/known/durationpb"
 	"regexp"
 	"strconv"
 	"strings"
@@ -39,7 +39,7 @@ func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification 
 	req := &privilegedaccessmanagerpb.CreateGrantRequest{
 		Parent: entitlementFqn,
 		Grant: &privilegedaccessmanagerpb.Grant{
-			Name: entitlementId,
+			Name:              entitlementId,
 			RequestedDuration: requestedDuration,
 			Justification: &privilegedaccessmanagerpb.Justification{
 				Justification: &privilegedaccessmanagerpb.Justification_UnstructuredJustification{
