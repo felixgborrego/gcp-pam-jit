@@ -1,10 +1,13 @@
 package pamjit
 
 import (
-	privilegedaccessmanager "cloud.google.com/go/privilegedaccessmanager/apiv1"
-	"cloud.google.com/go/privilegedaccessmanager/apiv1/privilegedaccessmanagerpb"
 	"context"
 	"fmt"
+
+	privilegedaccessmanager "cloud.google.com/go/privilegedaccessmanager/apiv1"
+	"cloud.google.com/go/privilegedaccessmanager/apiv1/privilegedaccessmanagerpb"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Client struct {
@@ -33,6 +36,8 @@ func NewPamJitClient(ctx context.Context, projectID, location string) (*Client, 
 }
 
 // CheckOnboardingStatus checks if the user is onboarded to PAM JIT and returns an error if not.
+// It returns an error only if there's a problem determining the status,
+// but ignores PermissionDenied errors, treating them as not onboarded.
 func (c *Client) CheckOnboardingStatus(ctx context.Context) error {
 	req := &privilegedaccessmanagerpb.CheckOnboardingStatusRequest{
 		Parent: c.parent(),
@@ -40,6 +45,10 @@ func (c *Client) CheckOnboardingStatus(ctx context.Context) error {
 
 	resp, err := c.gcpClient.CheckOnboardingStatus(ctx, req)
 	if err != nil {
+		if status.Code(err) == codes.PermissionDenied {
+			// Treat PermissionDenied as not onboarded, but don't fail
+			return nil 
+		}
 		return fmt.Errorf("failed to check onboarding status: %w", err)
 	}
 
