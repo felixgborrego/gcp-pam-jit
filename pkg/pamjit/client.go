@@ -46,7 +46,7 @@ func (c *Client) CheckOnboardingStatus(ctx context.Context) error {
 	resp, err := c.gcpClient.CheckOnboardingStatus(ctx, req)
 	if err != nil {
 		if status.Code(err) == codes.PermissionDenied {
-			// Treat PermissionDenied as not onboarded, but don't fail
+			// Treat PermissionDenied as onboarded
 			return nil 
 		}
 		return fmt.Errorf("failed to check onboarding status: %w", err)
