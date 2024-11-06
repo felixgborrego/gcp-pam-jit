@@ -7,28 +7,28 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/felixgborrego/gpc-pam-jit/pkg/config"
 	"golang.org/x/oauth2/google"
-
+	"github.com/felixgborrego/gpc-pam-jit/pkg/config"
+	"github.com/felixgborrego/gpc-pam-jit/pkg/pamjit"
 	"github.com/slack-go/slack"
 )
 
-func SendSlackMessage(cfg *config.Config, entitlementID string, projectID string ,justification string ,duration string, link string) (error) {
+func SendSlackMessage(cfg *config.Config, options *pamjit.RequestOptions, link string) (error) {
 	api := slack.New(cfg.Slack.Token)
 	email, _ := getUserEmail()
 
 	message := fmt.Sprintf(
 		"PAM Request for Entitlement %s\n"+
-		"*Requested for Resource:* %s\n"+
-		"*Requested by:* %s\n"+
-		"*Duration:* %s\n"+
-		"*Justification:* %s\n"+
+		"Requested for Resource: `%s`\n"+
+		"Requested by: `%s`\n"+
+		"Duration: `%s`\n"+
+		"Justification: `%s`\n"+
 		"Please review and approve: %s",
-		entitlementID,
-		projectID,
+		options.EntitlementID,
+		options.ProjectID,
 		email,
-		duration,
-		justification,
+		options.Duration,
+		options.Justification,
 		link,
 	)
 

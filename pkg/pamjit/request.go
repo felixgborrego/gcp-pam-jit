@@ -10,6 +10,14 @@ import (
 	"strings"
 )
 
+type RequestOptions struct {
+	EntitlementID string
+	ProjectID     string
+	Location      string
+	Justification string
+	Duration      string
+}
+
 func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification string, duration string) (string, error) {
 	entitlementFqn := fmt.Sprintf("%s/entitlements/%s", c.parent(), entitlementId)
 

@@ -12,32 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type RequestOptions struct {
-	EntitlementID string
-	ProjectID     string
-	Location      string
-	Justification string
-	Duration      string
-}
-
 var requestCmd = &cobra.Command{
 	Use:   "request",
 	Short: "Request an entitlement",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		options := &RequestOptions{
+		options := &pamjit.RequestOptions{
 			EntitlementID: args[0],
 			ProjectID:     cmd.Flag("project").Value.String(),
 			Location:      cmd.Flag("location").Value.String(),
 			Justification: cmd.Flag("justification").Value.String(),
 			Duration:      cmd.Flag("duration").Value.String(),
 		}
-
-		// entitlementID := args[0]
-		// projectID, _ := cmd.Flags().GetString("project")
-		// location, _ := cmd.Flags().GetString("location")
-		// justification, _ := cmd.Flags().GetString("justification")
-		// duration, _ := cmd.Flags().GetString("duration")
 
 		pam, err := pamjit.NewPamJitClient(context.Background(), options.ProjectID, options.Location)
 		if err != nil {
@@ -54,7 +40,7 @@ var requestCmd = &cobra.Command{
 				// only attempt to send to Slack if config is set
 				if cfg.Slack.Token != "" && cfg.Slack.Channel != "" {
 					// send the link to Slack and if it fails then display the link
-					err = slack.SendSlackMessage(cfg, options.EntitlementID, options.ProjectID, options.Justification, options.Duration, link)
+					err = slack.SendSlackMessage(cfg, options, link)
 					if err != nil {
 						fmt.Printf("Link to request: %s\n", link)
 					}
