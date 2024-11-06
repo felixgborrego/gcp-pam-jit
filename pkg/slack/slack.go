@@ -19,10 +19,10 @@ func SendSlackMessage(cfg *config.Config, options *pamjit.RequestOptions, link s
 
 	message := fmt.Sprintf(
 		"PAM Request for Entitlement %s\n"+
-		"Requested for Resource: `%s`\n"+
-		"Requested by: `%s`\n"+
-		"Duration: `%s`\n"+
-		"Justification: `%s`\n"+
+		"*Requested for Resource:* `%s`\n"+
+		"*Requested by:* `%s`\n"+
+		"*Duration:* `%s`\n"+
+		"*Justification:* `%s`\n"+
 		"Please review and approve: %s",
 		options.EntitlementID,
 		options.ProjectID,
