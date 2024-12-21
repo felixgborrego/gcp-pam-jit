@@ -13,7 +13,7 @@ This project is CLI that allows for the employees to request Just-in-time access
 It's composed of two main components:
 
 * A CLI that allows the user to request access to a GCP project
-* TODO: A Slack integration that allows the designated approve to be notified and give permission to the user.
+* A Slack integration that allows the designated approve to be notified and give permission to the user
 
 ## Installation
 
@@ -59,7 +59,7 @@ gcp-jit config slack --token xxxxxxx --channel test1
 
 ## Manual build and run
 
-```
+```shell
 # Run locally for development
 go run .
 

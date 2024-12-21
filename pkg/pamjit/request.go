@@ -10,7 +10,15 @@ import (
 	"strings"
 )
 
-func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification string, duration string) error {
+type RequestOptions struct {
+	EntitlementID string
+	ProjectID     string
+	Location      string
+	Justification string
+	Duration      string
+}
+
+func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification string, duration string) (string, error) {
 	entitlementFqn := fmt.Sprintf("%s/entitlements/%s", c.parent(), entitlementId)
 
 	reqEntitlement := &privilegedaccessmanagerpb.GetEntitlementRequest{
@@ -19,7 +27,7 @@ func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification 
 
 	entitlement, err := c.gcpClient.GetEntitlement(ctx, reqEntitlement)
 	if err != nil {
-		return fmt.Errorf("entitlement not found: %v", err)
+		return "", fmt.Errorf("entitlement not found: %v", err)
 	}
 
 	// convert duration string to google.protobuf.Duration
@@ -28,7 +36,7 @@ func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification 
 		var err error
 		requestedDuration, err = parseDurationProto(duration)
 		if err != nil {
-			return fmt.Errorf("invalid duration: %w", err)
+			return "", fmt.Errorf("invalid duration: %w", err)
 		}
 	} else {
 		requestedDuration = entitlement.MaxRequestDuration
@@ -52,14 +60,19 @@ func (c *Client) RequestGrant(ctx context.Context, entitlementId, justification 
 	grant, err := c.gcpClient.CreateGrant(ctx, req)
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	fmt.Printf("Granted request sent! %s\n", grant.GetState().String())
+	fmt.Printf("Grant request sent: %s\n", grant.GetState().String())
 
-	// display a link to request to paste in Slack - future could post message directly
-	fmt.Printf("Link to request https://console.cloud.google.com/iam-admin/pam/grants/approvals?project=%s\n", c.projectID)
-	return nil
+	link := fmt.Sprintf("https://console.cloud.google.com/iam-admin/pam/grants/approvals?project=%s", c.projectID)
+
+	// only return link if the request requires approval
+	if grant.GetState().String() == "APPROVAL_AWAITED" {
+		return link, nil
+	} else {
+		return "", nil
+	}
 }
 
 // parseDurationProto converts a duration string like "30s", "5m", or "2h" to *duration.Duration
