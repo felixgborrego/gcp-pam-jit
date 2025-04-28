@@ -1,4 +1,4 @@
-# Just in time access for GCP using PAM
+# Just-in-time access for GCP using PAM
 
 ![Go](docs/imgs/c4-diagram-context.jpg)
 
@@ -7,13 +7,13 @@
 
 ## Introduction
 
-This project is CLI that allows for the employees to request Just-in-time access to GCP resources for a limited time using the
+This project is a CLI that allows employees to request Just-in-time access to GCP resources for a limited time using the
 [Google Privileged Access Manager](https://cloud.google.com/iam/docs/pam-overview).
 
 It's composed of two main components:
 
 * A CLI that allows the user to request access to a GCP project
-* A Slack integration that allows the designated approve to be notified and give permission to the user
+* A Slack integration that allows the designated approver to be notified and give permission to the user
 
 ## Installation
 
@@ -24,10 +24,13 @@ go install github.com/felixgborrego/gpc-pam-jit/cmd/gcp-jit@latest
 ## Usage:
 
 * List the available entitlements:
+  
 ```shell
 gcp-jit entitlements --project prj-xxx-33333
 ```
+
 Example output:
+
 ```shell
 Your current GCP user has the following entitlements for the project prj-xxx-33333 and location global:
 
@@ -43,14 +46,15 @@ Your current GCP user has the following entitlements for the project prj-xxx-333
     Granted Roles: roles/appengine.appAdmin
     Approval required by: user:felix@test.com
 
-````
+```
 
 * Request Just-in-Time access:
+
 ```shell
 gcp-jit request database-access \
      --project prj-xxx-33333 \
      --justification "I need to run a basic query on the prod database"
-````
+```
 
 * Configure Slack integration:
 ```shell
