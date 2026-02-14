@@ -37,10 +37,9 @@ func init() {
 	rootCmd.AddCommand(listEntitlementCmd)
 
 	listEntitlementCmd.Flags().StringP("project", "p", "", "Project ID")
+	listEntitlementCmd.Flags().StringP("folder", "f", "", "Folder ID")
 	listEntitlementCmd.Flags().StringP("location", "l", "global", "Location")
-	_ = listEntitlementCmd.MarkFlagRequired("project")
 
-	listEntitlementCmd.Flags().StringP("folder", "p", "", "folder ID")
-	listEntitlementCmd.Flags().StringP("location", "l", "global", "Location")
-	_ = listEntitlementCmd.MarkFlagRequired("folder")
+	listEntitlementCmd.MarkFlagsOneRequired("project", "folder")
+	listEntitlementCmd.MarkFlagsMutuallyExclusive("project", "folder")
 }

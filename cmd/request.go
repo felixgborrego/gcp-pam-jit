@@ -77,9 +77,11 @@ func init() {
 	rootCmd.AddCommand(requestCmd)
 
 	requestCmd.Flags().StringP("project", "p", "", "Project ID")
-	requestCmd.Flags().String("folder", "f", "Folder ID")
+	requestCmd.Flags().StringP("folder", "f", "", "Folder ID")
 	requestCmd.Flags().StringP("location", "l", "global", "Location")
 	requestCmd.Flags().StringP("justification", "j", "", "Justification")
 	requestCmd.Flags().StringP("duration", "d", "", "Duration (defaults to maximum)")
 
+	requestCmd.MarkFlagsOneRequired("project", "folder")
+	requestCmd.MarkFlagsMutuallyExclusive("project", "folder")
 }

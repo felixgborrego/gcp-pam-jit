@@ -47,6 +47,7 @@ func init() {
 
 	slackCmd.Flags().StringP("channel", "c", "", "Slack channel to send messages to")
 	slackCmd.Flags().StringP("token", "t", "", "Slack token")
-	_ = slackCmd.MarkFlagRequired("channel")
-	_ = slackCmd.MarkFlagRequired("token")
+
+	slackCmd.MarkFlagRequired("channel")
+	slackCmd.MarkFlagRequired("token")
 }
